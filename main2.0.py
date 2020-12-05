@@ -1,7 +1,5 @@
 import os
 import pandas as pd
-# import xlsxwriter
-
 
 # ====================================================ФУНКЦИИ===========================================================
 
@@ -53,29 +51,6 @@ def filter2_0(df):
         i += 1
         row = indexes_list[i]
         if row > len(indexes_list): break
-    # Версия 1
-    # for game_zone_row in range(len(date_comands_from_game_zone_rows)-1):
-    #     current_date_comands_from_game_zone = date_comands_from_game_zone_rows[game_zone_row]
-    #     for non_game_zone_row in range(len(date_comands_from_non_game_zone_rows)-1, game_zone_row, -1):
-    #         current_date_comands_from_non_game_zone = date_comands_from_non_game_zone_rows[non_game_zone_row]
-    #         same_date_comands = samer(current_date_comands_from_game_zone, current_date_comands_from_non_game_zone)
-    #         if same_date_comands:
-    #             df = df.drop(df.index[non_game_zone_row])
-    # Версия 2
-    # date_comands_from_game_zone_rows = [list(d) for d in df.loc[
-    #     df["Game"] == "Game", ["День", "Месяц", "Команда 1", "Команда 2"]].values]
-    # date_comands_from_non_game_zone_rows = [list(d) for d in df.loc[
-    #     df["Game"] != "Game", ["День", "Месяц", "Команда 1", "Команда 2"]].values]
-    # game_len = len(date_comands_from_game_zone_rows)
-    # for row_non_game in range(len(date_comands_from_non_game_zone_rows)):
-    #     row_from_non_game = date_comands_from_non_game_zone_rows[row_non_game]
-    #     for row_game in range(len(date_comands_from_game_zone_rows)):
-    #         row_from_game = date_comands_from_game_zone_rows[row_game]
-    #         same_result = samer(row_from_game, row_from_non_game)
-    #         if same_result:
-    #             zone = get_non_game_row_zone(df.loc[df.index[row_non_game]+game_len])
-    #             df.loc[df.index[row_game], zone] = zone
-    #             df = df.drop(df.index[row_non_game]+game_len)
     df = paste_game_data_from_game_sheet(month_sort(df))
     return df
 
