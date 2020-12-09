@@ -299,10 +299,8 @@ if processed:
 
 # ==============================================ЭТАП 2. ПРИМЕНЕНИЕ УСЛОВИЙ==============================================
 
-processed = True
 
-if processed:
-
+def main_filter(all_conditions):
     result = {}
     for result_sheet_name, sheet_conditions in all_conditions.items():
         answer_list_for_all_conditioned_tables = []
@@ -310,7 +308,8 @@ if processed:
             zone_codition_tables_list = []
             work_sheet = pd.read_excel(xlsx, sheet_name=zone_name).loc[1:]
             for one_condition_list in all_zones_conditionals:
-                one_condition = work_sheet.query(one_condition_list[0] + " & " + one_condition_list[1]).loc[:, "Сезон":"Т2М"]
+                one_condition = work_sheet.query(one_condition_list[0] + " & " + one_condition_list[1]).loc[:,
+                                "Сезон":"Т2М"]
                 zone_codition_tables_list.append(one_condition)
             zone_condition = pd.concat(zone_codition_tables_list, ignore_index=True)
             zone_condition = zone_condition.rename(columns={"Дата": "День", "Unnamed: 3": "Месяц"})
@@ -321,13 +320,38 @@ if processed:
         result_dataframe = pd.concat(answer_list_for_all_conditioned_tables, ignore_index=True)
         result_dataframe = filter2_0(result_dataframe)
         result[result_sheet_name] = result_dataframe
+    return result
 
-    print(result)
+
+processed = True
+
+if processed:
+    print(main_filter(all_conditions))
+    # result = {}
+    # for result_sheet_name, sheet_conditions in all_conditions.items():
+    #     answer_list_for_all_conditioned_tables = []
+    #     for zone_name, all_zones_conditionals in sheet_conditions.items():
+    #         zone_codition_tables_list = []
+    #         work_sheet = pd.read_excel(xlsx, sheet_name=zone_name).loc[1:]
+    #         for one_condition_list in all_zones_conditionals:
+    #             one_condition = work_sheet.query(one_condition_list[0] + " & " + one_condition_list[1]).loc[:, "Сезон":"Т2М"]
+    #             zone_codition_tables_list.append(one_condition)
+    #         zone_condition = pd.concat(zone_codition_tables_list, ignore_index=True)
+    #         zone_condition = zone_condition.rename(columns={"Дата": "День", "Unnamed: 3": "Месяц"})
+    #         вот тут удаляются повторения в одноимённых зонах
+            # zone_condition = del_same_rows_in_one_zone_table(zone_condition)
+            # zone_condition = get_zone_column_name(zone_condition)
+            # answer_list_for_all_conditioned_tables.append(zone_condition)
+        # result_dataframe = pd.concat(answer_list_for_all_conditioned_tables, ignore_index=True)
+        # result_dataframe = filter2_0(result_dataframe)
+        # result[result_sheet_name] = result_dataframe
+    #
+    # print(result)
 
 
 # ==============================================ЭТАП 3. ЗАПИСЬ РЕЗУЛЬТАТОВ==============================================
 
-processed = True
+processed = False
 
 if processed:
 
